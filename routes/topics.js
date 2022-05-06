@@ -14,4 +14,15 @@ router.get("/", function (req, res, next) {
   });
 });
 
+router.get("/heirarchy", (req, res, next) => {
+  const sql = `SELECT * FROM heirarchy`;
+  conn.query(sql, function (err, result) {
+    if (err) {
+      res.send(err);
+    } else {
+      res.send(result);
+    }
+  });
+});
+
 module.exports = router;
