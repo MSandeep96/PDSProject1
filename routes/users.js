@@ -33,4 +33,18 @@ router.post("/register", (req, res, next) => {
   });
 });
 
+router.get("/status/:userId", (req, res, next) => {
+  const userId = req.params.userId;
+  const sql = `select case when sum(upvotes) < 100 then 'Basic'
+  when sum(upvotes) < 200 then 'Advanced'
+        else 'Expert' end as Status from Answers where auser="${userId}" group by auser`;
+  conn.query(sql, (err, result) => {
+    if (err) {
+      res.status(500).json(err);
+    } else {
+      res.status(200).json(result[0]);
+    }
+  });
+});
+
 module.exports = router;
